@@ -16,8 +16,8 @@ exports.TplLoader = TplLoader;
  * @return {this}
  */
 exports.configure = function (options) {
-    if (!options.templateDir) {
-        options.templateDir = process.cwd() + '/views';
+    if (!options.baseDir) {
+        options.baseDir = process.cwd() + '/views';
     }
     loader = new TplLoader(options);
     return this;
@@ -47,7 +47,7 @@ exports.render = function (tplName, data) {
  * @param  {boolean} cacheable 是否可缓存默认false
  * @return {string}
  */
-exports.renderString = function (source, data) {
+exports.renderString = function (source, data, cacheable) {
     if (!loader) {
         this.configure();
     }
@@ -64,7 +64,16 @@ exports.precompile = function () {
         this.configure();
     }
     if (!loader.cacheable) {
-        return Promise.resolve(false);
+        throw new Error('should use cacheable option!');
     }
     return precompile(loader);
+};
+
+/**
+ * 获取当前渲染器
+ *
+ * @return {TplLoader} loader
+ */
+exports.getLoader = function () {
+    return loader;
 };

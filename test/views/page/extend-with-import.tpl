@@ -9,3 +9,6 @@ extend-with-import
 {%@import: ../import-target%}
 {%/block%}
 
+{%block: footer%}
+{%@import: common/import-3.tpl%}
+{%/block%}

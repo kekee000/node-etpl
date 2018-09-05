@@ -20,7 +20,7 @@ etpl node 扩展
 
 引入模板：
 ```
-<!-- @import: base/base.tpl -->
+<!-- @include: base/base.tpl -->
 ```
 将会翻译为：
 
