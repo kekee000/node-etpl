@@ -1,29 +1,122 @@
-# node-etpl
-etpl node 扩展
+node-etpl
+----
+etpl Node.js渲染模块。支持Node.js端渲染，基于模板文件进行渲染，支持按需加载和缓存模板文件。
 
-支持Node.js端渲染，基于模板文件进行渲染，支持按需加载和缓存模板文件。
+Node.js version >= 8.0.0
 
-支持扩展语法：
+## 安装和初始化
 
-继承模板：
+安装
+
+```javascript
+npm install node-etpl
 ```
-<!-- @extend: base/base -->
+
+初始化和使用
+
+```javascript
+const nodeEtpl = require('node-etpl');
+
+// 初始化配置
+nodeEtpl.configure({
+    baseDir: './views' // 模板根目录
+});
+
+// 渲染
+nodeEtpl.render('page/index', {name: 'etpl'});
+nodeEtpl.renderString('#{name}', {name: 'etpl'});
+```
+
+## API
+
+**configure**
+
+```javascript
+// 初始化配置（默认）
+nodeEtpl.configure({
+    baseDir: './views', // 模板根目录
+    cacheable: true, // 是否缓存模板编译结果
+    ext: '.tpl', // 模板扩展名
+    // filters，过滤器
+    filters: {
+        jsonEncode
+    },
+    // etplOptions, 详见 etpl
+    options: {
+        commandOpen: '{%',
+        commandClose: '%}',
+        variableOpen: '#{',
+        variableClose: '}',
+        strip: true
+    }
+});
+```
+
+**render**
+
+```javascript
+let str = nodeEtpl.render('page/index', {
+    // data object
+});
+```
+
+
+**renderString**
+
+```javascript
+let str = nodeEtpl.renderString('#{name}', {
+    // data object
+    name: 'etpl'
+});
+// etpl
+```
+**precompile**
+
+```javascript
+nodeEtpl.precompile().then(loader => {
+    loader.render('page/index', {
+        // data object
+    });
+});
+```
+注意：precompile为异步方法
+
+## 扩展指令
+支持2个扩展指令，`@extend` 和 `@import`，在预编译时翻译为etpl支持的模板指令。
+
+### 继承模板：@extend
+当前模板路径为：`page/index.tpl`
+
+```
+{%@extend: base/base%}
+
 // or
-<!-- @extend: base/base.tpl -->
+{%@extend: base/base.tpl%}
+
+// or `:`可省略
+{%@extend ../base%}
 ```
 
 将会翻译为：
 ```
-<!-- target: @xxx(master=@base/base) -->
+{%target:page/index.tpl(master=base/base.tpl)%}
 ```
 
 
-引入模板：
+### 引入模板：@import
+当前模板路径为：`page/index.tpl`
+
 ```
-<!-- @include: base/base.tpl -->
+{%@import: base/base.tpl%}
+
+or
+{%@import: base/base%}
+
+// or `:`可省略
+{%@import ../base%}
 ```
 将会翻译为：
 
 ```
-<!-- import: @base/base -->
+{%import:base/base.tpl%}
 ```
