@@ -84,6 +84,11 @@ nodeEtpl.precompile().then(loader => {
 ## 扩展指令
 支持2个扩展指令，`@extend` 和 `@import`，在预编译时翻译为etpl支持的模板指令。
 
+*注意:* 若使用`@extend` 和 `@import`，则不需要在文件头声明`target`名称，会自动添加target，并且自动加载依赖。
+
+在模板中声明的etpl`target`不会被`node-etpl`解析和加载，若要完成etpl`target`自动加载工作，
+需使用etpl原生的`load`和`loadFromFile`方法。
+
 ### 继承模板：@extend
 当前模板路径为：`page/index.tpl`
 
