@@ -1,0 +1,31 @@
+{
+  "name": "node-etpl",
+  "version": "1.0.0",
+  "description": "etpl Node.js extends",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --colors test/*.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kekee000/node-etpl.git"
+  },
+  "keywords": [
+    "node-etpl",
+    "etpl",
+    "template",
+    "tpl"
+  ],
+  "author": "mengke01 (kekee000@gmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kekee000/node-etpl/issues"
+  },
+  "homepage": "https://github.com/kekee000/node-etpl#readme",
+  "dependencies": {
+    "etpl": "^3.2.0"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  }
+}
